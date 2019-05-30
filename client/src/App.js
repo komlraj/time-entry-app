@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import './scss/index.scss';
 import {Route,BrowserRouter, Switch, Redirect} from 'react-router-dom';
 import { getLoggedinUserData } from './actions/actions';
 import { connect } from 'react-redux';
