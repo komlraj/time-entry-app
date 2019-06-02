@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import Dashboard from './components/Dashboard';
 import Signup from './components/Signup';
 import Login from './components/Login';
+import Entries from './components/Entries';
+import './scss/index.scss';
 
 function App(props) {
 
@@ -50,6 +52,7 @@ function App(props) {
           <Route exact path='/login' render={() => checkLogin() } />
           <Route path='/register' component={Signup} />
           <Route path='/' render={() => checkAuth(<Dashboard />) } />
+          <Route path='/entries' component={Entries} />
         </Switch>
       </div>
     </BrowserRouter>

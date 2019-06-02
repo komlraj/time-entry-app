@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import '../scss/index.scss';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { loginAction } from '../actions/actions';
 
 function Login(props) {
@@ -20,7 +19,7 @@ function Login(props) {
     props.login(state).then(data => {
       if(data.user) {
         props.dispatch({type: 'LOGIN_SUCCESS', data: data.user })
-        props.history.push("/");
+        props.history.push('/')
       } else {
         props.dispatch({ type: 'LOGIN_ERR', data })
       }    
@@ -50,7 +49,6 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     login : (data) => dispatch(loginAction(data)),
-    // getData : (data) => dispatch(getLoggedinUserData(data)),
   }
 }
 

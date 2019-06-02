@@ -14,7 +14,6 @@ export function signupAction(data) {
       if(data.message) {
         dispatch({ type : 'SIGNUP_SUCESS', data: data.message })
       } else {
-          console.log("signup error")
         dispatch({ type : 'SIGNUP_ERR' })
       } 
     })
@@ -22,7 +21,6 @@ export function signupAction(data) {
 }
 
 export function loginAction(data) {
-    console.log(data)
   return (dispatch) => {
     return fetch(`${apiUrl}/login`, {
       method : 'POST',
@@ -32,6 +30,18 @@ export function loginAction(data) {
       body : JSON.stringify(data)
     })
     .then(res => res.json())
+  }
+}
+
+export function createTaskAction(data) {
+  return (dispatch) => {
+    return fetch(`${apiUrl}/create`, {
+      method : 'POST',
+      headers : {
+        "Content-Type" : "application/json"
+      },
+      body : JSON.stringify(data)
+    })
   }
 }
 

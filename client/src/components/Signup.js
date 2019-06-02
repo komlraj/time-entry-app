@@ -8,7 +8,8 @@ function Signup(props) {
   var state = {
     name: '',
     username: '',
-    email: ''
+    email: '',
+    password: ''
   }
 
   function handleChange(e) {

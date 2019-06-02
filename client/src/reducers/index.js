@@ -1,7 +1,14 @@
 const initState = {
-    currentUserTodos: [],
+    timer: false,
+    log: false,
     currentUser: null,
-    fetchedUserData: {}
+    loginUser: {},
+    project: null,
+    task: null,
+    startTime: '00:00',
+    endTime: '00:00',
+    loader: '',
+    tasks: null
   }
   
   const rootReducer = (state = initState, action) => {
@@ -25,16 +32,55 @@ const initState = {
           ...state,
           message : action.data.message
         }
-      case 'ISLOGGEDINDATA' :
+      case 'ISLOGGEDINDATA':
         return {
           ...state,
-          fetchedUserData : action.data
+          loginUser : action.data
         }
-      case 'DISPLAY_TODOS' : 
-        console.log('DISPLAY_TODOS running', action.data)
+      case 'DISPLAY_TODOS': 
         return {
           ...state,
           currentUserTodos: action.data
+        }
+      case 'TIMER':
+        return {
+          ...state,
+          timer: action.data
+        }
+      case 'LOG': 
+        return {
+          ...state,
+          log: action.data
+        }
+      case 'PROJECT':
+        return {
+          ...state,
+          project: action.data
+        }
+      case 'TASK':
+        return {
+          ...state,
+          task: action.data
+        }
+      case 'START_TIME':
+        return {
+          ...state,
+          startTime: action.data
+        }
+      case 'END_TIME':
+        return {
+          ...state,
+          endTime: action.data
+        }
+      case 'LOADER': 
+        return {
+          ...state,
+          loader: action.data
+        }
+      case 'TASKS': 
+        return {
+          ...state,
+          tasks: action.data
         }
       default:
         break;
