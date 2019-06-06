@@ -19,7 +19,7 @@ function Login(props) {
     props.login(state).then(data => {
       if(data.user) {
         props.dispatch({type: 'LOGIN_SUCCESS', data: data.user })
-        props.history.push('/')
+        (props.history) ? props.history.push('/') : '';
       } else {
         props.dispatch({ type: 'LOGIN_ERR', data })
       }    
@@ -28,7 +28,7 @@ function Login(props) {
   }
 
   return (
-    <div className='login'> 
+    <div className='login'>
       <div className='wr-form'>
         <form className='en-form'>
           <h2 className='title'>LOGIN HERE</h2>

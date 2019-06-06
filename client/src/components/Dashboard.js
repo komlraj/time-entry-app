@@ -1,61 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../scss/index.scss';
 import Header from './Header';
 import { connect } from 'react-redux';
 import Entries from './Entries';
-import { createTaskAction } from '../actions/actions';;
+import CreateEntry from './CreateEntry';
+
 
 function Dashboard(props) {
-  var state = {
-    projects: ['project1', 'project2', 'project3'],
-  }
 
-  function handleTask(e) {
-    props.dispatch({type: 'TASK', data:  e.target.value })
-  }
-
-  function handleProject(e) {
-    props.dispatch({type: 'PROJECT', data:  e.target.value })
-  }
-
-  function handleStartTime(e) {
-    props.dispatch({type: 'START_TIME', data:  e.target.value })
-  }
-
-  function handleEndTime(e) {
-    props.dispatch({type: 'END_TIME', data:  e.target.value })
-  }
-
-  function handleTimer(e) {
-    e.preventDefault();
-    props.dispatch({type: 'TIMER', data: !props.timer })  
-  }
+  useEffect(() => {
+    fetch('http://localhost:8000/api/timers')
+    .then(res => res.json())
+    .then(data => {
+      props.dispatch({ type : 'TIMER_DATA', data: data.data })
+    }).catch(err => {
+      props.dispatch({ type : 'TIMER_ERROR', data: err })
+    })
+  });
 
   function handleClick() {
     props.dispatch({type: 'LOG', data: !props.log })
   }
 
-  function handleCreateEntry(e) {
-    e.preventDefault();
-    props.dispatch({type: 'LOADER', data: true })
-    const { task, project, startTime, endTime, timer } = props;
-    props.createTask({
-       task,
-       project,
-       startTime,
-       endTime,
-       timer,
-       date: new Date()
-    }).then(res => {
-      props.dispatch({type: 'LOADER', data: false });
-      props.dispatch({type: 'TIMER', data: false })
-
-    });
-  }
-
-
   return (
-    <div>
+    <div className='app'>
       <Header />
       <div className='dashboard'>
         <div className='aside'>
@@ -65,34 +33,26 @@ function Dashboard(props) {
             </button>
           </div>
           <p>Timer</p>
+          <div>
+            {
+              (props.timerData) ?
+                <div>
+                  <p>{props.timerData.task}</p>
+                  <p>{props.timerData.startTime}</p>
+                  <p>{props.timerData.endTime}</p>
+                </div>
+              : ''
+            }
+          </div>
         </div>
-        <div>
-          {(props.loader) ? <div>Loader</div> :
-            (!props.log) ?  
-            <div>
-              <form>
-                <input type='text' name='task' onChange={handleTask} placeholder='Task'/>
-                <select name='project' onChange={handleProject}>
-                  <option >Project</option>
-                  {
-                    state.projects.map((project, idx) => {
-                      return <option key={idx}>{project}</option>
-                    })
-                  }
-                </select>
-                <input type='time' name='startTime' onClick={handleStartTime} />
-                <input type='time' name='endTime' onClick={handleEndTime} />
-                <button 
-                  className={props.timer ? 'btn stop-btn' : 'btn'}
-                  onClick={handleTimer}
-                >
-                  {(props.timer) ? 'Stop Timer' : 'Start Timer' }
-                </button>
-                <button className='btn' onClick={handleCreateEntry}>Create Entery</button>
-              </form>
-            </div> : 
-            
-                  <Entries />
+        <div className='main'>
+          {(props.loader) ? 
+          <div class="lds-spinner">
+            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div>
+          </div> :
+            (!props.log) ? <CreateEntry /> :
+           <Entries />
           }
         </div>
       </div>
@@ -102,20 +62,15 @@ function Dashboard(props) {
 
 function mapStateToProps(state) {
   return {
-    timer: state.timer,
     log: state.log,
-    startTime: state.startTime,
-    endTime: state.endTime,
-    project:  state.project,
-    task: state.task,
-    loader: state.loader
+    loader: state.loader,
+    timerData: state.timerData
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
-    createTask: (data) => dispatch(createTaskAction(data))
+    dispatch
   }
 }
 

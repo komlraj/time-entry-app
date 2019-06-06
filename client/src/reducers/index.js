@@ -1,14 +1,11 @@
 const initState = {
-    timer: false,
     log: false,
     currentUser: null,
     loginUser: {},
-    project: null,
-    task: null,
-    startTime: '00:00',
-    endTime: '00:00',
     loader: '',
-    tasks: null
+    timerData: null,
+    tasks: null,
+    taskArr: null
   }
   
   const rootReducer = (state = initState, action) => {
@@ -37,50 +34,30 @@ const initState = {
           ...state,
           loginUser : action.data
         }
-      case 'DISPLAY_TODOS': 
-        return {
-          ...state,
-          currentUserTodos: action.data
-        }
-      case 'TIMER':
-        return {
-          ...state,
-          timer: action.data
-        }
       case 'LOG': 
         return {
           ...state,
           log: action.data
-        }
-      case 'PROJECT':
-        return {
-          ...state,
-          project: action.data
-        }
-      case 'TASK':
-        return {
-          ...state,
-          task: action.data
-        }
-      case 'START_TIME':
-        return {
-          ...state,
-          startTime: action.data
-        }
-      case 'END_TIME':
-        return {
-          ...state,
-          endTime: action.data
         }
       case 'LOADER': 
         return {
           ...state,
           loader: action.data
         }
-      case 'TASKS': 
+      case 'TIMER_DATA':
+        return {
+          ...state,
+          timerData: action.data
+        }
+      case 'TASKS':
         return {
           ...state,
           tasks: action.data
+        }
+      case 'TASKSARR':
+        return {
+          ...state,
+          taskArr: action.data
         }
       default:
         break;

@@ -14,4 +14,6 @@ router.post('/create', taskController.create);
 
 router.get('/tasks', taskController.tasks);
 
+router.get('/timers', taskController.timers);
+
 module.exports = router;

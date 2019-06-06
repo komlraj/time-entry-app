@@ -17,7 +17,12 @@ module.exports = {
 
 	tasks: (req, res) => {
 		Task.find({}, (err, data) => {
-			console.log(err, data, "tasks")
+			res.status(200).json({data})
+		})
+	},
+
+	timers: (req, res) => {
+		Task.findOne({timer: true}, (err, data) => {
 			res.status(200).json({data})
 		})
 	}
