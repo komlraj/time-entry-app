@@ -1,6 +1,9 @@
 {
   "name": "time-entry-app",
   "version": "0.1.0",
+  "engines": {
+    "node": "10.15.3"
+  },
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
