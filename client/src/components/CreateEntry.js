@@ -19,8 +19,6 @@ function CreateEntry(props) {
     timerError: null
   }
 
-  var taskArr = (props.tasks) ? props.tasks.filter(currentTasks) : null;
-
   const [
           {task, project, startTime, endTime, timer, timeError, timerError },
           setState
@@ -32,7 +30,6 @@ function CreateEntry(props) {
     .then(data => {
       props.dispatch({type: 'TASKS', data: data.data})
     })
-    props.dispatch({type: 'TASKSARR', data: taskArr})
 	});
 
   function handleState(e) {
@@ -40,13 +37,6 @@ function CreateEntry(props) {
     setState(prevState => ({ ...prevState, [name]: value })); 
   }
 
-  function currentTasks(task) {
-    let date = new Date(task.date);
-    let now = new Date();
-    if(date.getDate() == now.getDate() && date.getMonth() == date.getMonth()) {
-      return task;
-    }
-  }
 
   function handleTimer(e) {
     e.preventDefault();
@@ -70,16 +60,6 @@ function CreateEntry(props) {
     }
   }
 
-  function TimerButton() {
-    return (
-      <button
-        className={timer ? 'btn stop-btn' : 'btn'}
-        onClick={handleTimer}
-        >
-        {(timer) ? 'Stop Timer' : 'Start Timer' }
-      </button>
-    )
-  }
 	
 	function handleCreateEntry(e) {
     e.preventDefault();
@@ -137,29 +117,16 @@ function CreateEntry(props) {
           </button>
           <button className='btn' onClick={handleCreateEntry}>Create Entery</button>
           </form>
-			</div>
-      <div>
-        {
-          (props.taskArr) ? props.taskArr.map((obj, idx) => {
-            return <div key={idx}>
-              <p>{obj.task}</p>
-              <p>{obj.startTime}</p>
-              
-            </div>
-          })
-          : ''
-        }
-      </div>	
+			</div>	
 		</div>
   );
 }
 
 function mapStateToProps(state) {
-  const { timerData, tasks, taskArr } = state;
+  const { timerData, tasks } = state;
   return {
     timerData,
-    tasks,
-    taskArr
+    tasks
   }
 }
 

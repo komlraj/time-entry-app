@@ -4,8 +4,7 @@ const initState = {
     loginUser: {},
     loader: '',
     timerData: null,
-    tasks: null,
-    taskArr: null
+    tasks: null
   }
   
   const rootReducer = (state = initState, action) => {
@@ -53,11 +52,6 @@ const initState = {
         return {
           ...state,
           tasks: action.data
-        }
-      case 'TASKSARR':
-        return {
-          ...state,
-          taskArr: action.data
         }
       default:
         break;

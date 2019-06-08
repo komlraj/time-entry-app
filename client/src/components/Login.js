@@ -19,7 +19,7 @@ function Login(props) {
     props.login(state).then(data => {
       if(data.user) {
         props.dispatch({type: 'LOGIN_SUCCESS', data: data.user })
-        (props.history) ? props.history.push('/') : '';
+        props.history.push('/');
       } else {
         props.dispatch({ type: 'LOGIN_ERR', data })
       }    

@@ -8,6 +8,8 @@ import CreateEntry from './CreateEntry';
 
 function Dashboard(props) {
 
+  const [ time, setTime ] = useState('null');
+
   useEffect(() => {
     fetch('http://localhost:8000/api/timers')
     .then(res => res.json())
@@ -21,6 +23,34 @@ function Dashboard(props) {
   function handleClick() {
     props.dispatch({type: 'LOG', data: !props.log })
   }
+
+  function timer(startTime, endTime) {
+    var timeR = 'kk';
+    var now = new Date();
+    var cd =  now.getDate();
+    var cm = now.getMonth() + 1;
+    var cy = now.getFullYear();
+    var countDownDate = new Date(`${cm} ${cd} ${cy} ${endTime}`).getTime();
+
+    var x = setInterval(function() {
+      var nowT = now.getTime();
+      var distance = countDownDate - nowT;
+    
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+      setTime(days + "d " + hours + "h "
+      + minutes + "m " + seconds + "s ");
+  
+    if (distance < 0) {
+      clearInterval(x);
+      setTime("EXPIRED");
+    }
+    }, 1000);
+  }
+  timer("11:11", "03:05");
 
   return (
     <div className='app'>
@@ -38,8 +68,9 @@ function Dashboard(props) {
               (props.timerData) ?
                 <div>
                   <p>{props.timerData.task}</p>
-                  <p>{props.timerData.startTime}</p>
-                  <p>{props.timerData.endTime}</p>
+                  <p>{props.timerData.project}</p>
+                  {/* <p>{timer(props.timerData.startTime, props.timerData.endTime)}</p> */}
+                  <p>{time}</p>
                 </div>
               : ''
             }
@@ -47,7 +78,7 @@ function Dashboard(props) {
         </div>
         <div className='main'>
           {(props.loader) ? 
-          <div class="lds-spinner">
+          <div className="lds-spinner">
             <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
             <div></div><div></div><div></div><div></div>
           </div> :
